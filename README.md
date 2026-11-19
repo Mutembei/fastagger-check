@@ -4,6 +4,8 @@ A first-pass quality check for robot learning datasets in the LeRobot v3 format,
 
 It only reads the dataset. It never changes your episodes.
 
+**Don't want to set it up?** We'll run it for free on up to 20 of your episodes, in any of the formats below, and send the report within 48 hours. For a trained reviewer on every flagged episode, the reviewed check is $500 per 100 episodes. [Request either here](https://tally.so/r/RWo1o4?source=github).
+
 It was built for, and tested on, [DROID's public 100-episode sample](https://huggingface.co/datasets/lerobot/droid_100). The results of that run are in [`examples/droid_100`](examples/droid_100).
 
 ## Quick start

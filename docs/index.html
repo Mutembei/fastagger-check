@@ -55,7 +55,10 @@ h2 { font-size: clamp(26px, 3.6vw, 38px); margin-bottom: 18px; }
 figure { margin: 0 0 22px; }
 figure img { width: 100%; height: auto; border-radius: 10px; display: block; }
 figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
-.offer { background: var(--dark); color: var(--dark-text); border-radius: 16px; padding: 36px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; }
+.offer { background: var(--dark); color: var(--dark-text); border-radius: 16px; padding: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.tier { display: flex; flex-direction: column; }
+.tier ul { flex: 1; margin-bottom: 20px; }
+.tier .btn { align-self: flex-start; }
 .offer h2 { color: #F6F4EF; }
 .offer ul { margin: 0; padding-left: 20px; }
 .price { font: 700 56px var(--display); color: #F28C4B; line-height: 1; }
@@ -79,7 +82,7 @@ footer { padding: 32px 0 48px; border-top: 1px solid var(--line); font-size: 14p
   <p class="lede">A free first-pass check for robot datasets: LeRobot, or HDF5, ROS bags and MCAP through the converter. It reads the robot's state, actions and every camera, and flags episodes worth a second look: missing instructions, long idle stretches, one-step action spikes, possible dropped objects, frozen video and cameras out of sync with the arm.</p>
   <div class="btns">
     <a class="btn primary" id="cta-code" href="#">Get the code on GitHub</a>
-    <a class="btn ghost" id="cta-paid-top" href="#run">Run it on my data</a>
+    <a class="btn ghost" id="cta-paid-top" href="#run">Get a free check on your data</a>
   </div>
 </header>
 
@@ -144,22 +147,32 @@ python fastagger_convert.py to-mcap my_dataset --out mcap --flags out/events.csv
 
 <section class="wrap" id="run">
   <div class="offer">
-    <div>
-      <p class="eyebrow" style="color:#F28C4B">Don't have time to run it?</p>
-      <h2>We run it on your data, and a person reviews every flag</h2>
+    <div class="tier">
+      <p class="eyebrow" style="color:#F28C4B">Start here</p>
+      <h2>Free check on 20 of your episodes</h2>
       <ul>
-        <li>The check on 100 of your episodes, from LeRobot, HDF5, ROS bags or MCAP</li>
+        <li>Send up to 20 episodes in LeRobot, HDF5, ROS 1 or 2 bags, or MCAP</li>
+        <li>We convert them and run the check</li>
+        <li>You get every flag with its moment, a verdict per episode, example frames, a list of dropped or late messages, and MCAP files to open in Foxglove</li>
+        <li>Back within 48 hours. Data deleted 30 days after delivery</li>
+      </ul>
+      <div class="price">$0<small>No card, no contract. You keep the report.</small></div>
+      <a class="btn primary cta-form" href="#" target="_blank" rel="noopener">Get a free check</a>
+    </div>
+    <div class="tier">
+      <p class="eyebrow" style="color:#F28C4B">When you need a person on it</p>
+      <h2>Reviewed check</h2>
+      <ul>
         <li>A trained reviewer looks at every flagged episode</li>
-        <li>A report with each verdict, the reason and the moment it happened</li>
+        <li>Each flag confirmed or cleared, with the reason</li>
+        <li>Task success judged by your rules</li>
         <li>Results in 48 hours, under NDA if you want one</li>
       </ul>
-    </div>
-    <div>
       <div class="price">$500<small>per 100 episodes. Full refund if the report isn't useful.</small></div>
-      <a class="btn primary" id="cta-paid" href="#" target="_blank" rel="noopener">Tell us about your data</a>
-      <p class="note" style="margin-top:14px">A three-minute form about your robot, data and deadline. We reply within one working day with a start date and a payment link.</p>
+      <a class="btn primary cta-form" href="#" target="_blank" rel="noopener">Book a reviewed check</a>
     </div>
   </div>
+  <p class="note" style="margin-top:14px">Both buttons open the same one-minute form. We reply within one working day.</p>
 </section>
 
 <footer class="wrap">
@@ -171,9 +184,10 @@ python fastagger_convert.py to-mcap my_dataset --out mcap --flags out/events.csv
   var s = window.SITE || {};
   var mail = "mailto:" + s.email + "?subject=" + encodeURIComponent("Fastagger Check on my data");
   document.getElementById("cta-code").href = s.githubUrl;
-  var paid = document.getElementById("cta-paid");
-  paid.href = s.formLink ? s.formLink : mail;
-  if (!s.formLink) { paid.textContent = "Email us about your data"; paid.removeAttribute("target"); }
+  document.querySelectorAll(".cta-form").forEach(function (a) {
+    if (s.formLink) a.href = s.formLink + (s.formLink.indexOf("?") < 0 ? "?" : "&") + "source=site";
+    else { a.href = mail; a.removeAttribute("target"); }
+  });
   document.getElementById("email-text").textContent = s.email;
 })();
 </script>
