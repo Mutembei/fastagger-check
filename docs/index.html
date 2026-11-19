@@ -12,7 +12,7 @@
   /* ===== EDIT THESE THREE LINES ===== */
   window.SITE = {
     githubUrl: "https://github.com/Mutembei/fastagger-check", // your repository
-    stripeLink: "",            // paste your Stripe Payment Link here, e.g. "https://buy.stripe.com/..."
+    formLink: "",              // paste your Google Form link here, e.g. "https://forms.gle/..."
     email: "mkariuki@fastagger.com"
   };
 </script>
@@ -147,9 +147,9 @@ python verdicts.py out</div>
       </ul>
     </div>
     <div>
-      <div class="price">$500<small>per 100 episodes, paid upfront. Full refund if the report isn't useful.</small></div>
-      <a class="btn primary" id="cta-paid" href="#">Book a check</a>
-      <p class="note" style="margin-top:14px">After paying, we'll email you within one working day to arrange access to your data.</p>
+      <div class="price">$500<small>per 100 episodes. Full refund if the report isn't useful.</small></div>
+      <a class="btn primary" id="cta-paid" href="#" target="_blank" rel="noopener">Tell us about your data</a>
+      <p class="note" style="margin-top:14px">A two-minute form about your robot, data and deadline. We reply within one working day with a start date and a payment link.</p>
     </div>
   </div>
 </section>
@@ -164,8 +164,8 @@ python verdicts.py out</div>
   var mail = "mailto:" + s.email + "?subject=" + encodeURIComponent("Fastagger Check on my data");
   document.getElementById("cta-code").href = s.githubUrl;
   var paid = document.getElementById("cta-paid");
-  paid.href = s.stripeLink ? s.stripeLink : mail;
-  if (!s.stripeLink) paid.textContent = "Email to book a check";
+  paid.href = s.formLink ? s.formLink : mail;
+  if (!s.formLink) { paid.textContent = "Email us about your data"; paid.removeAttribute("target"); }
   document.getElementById("email-text").textContent = s.email;
 })();
 </script>

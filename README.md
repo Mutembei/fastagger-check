@@ -91,7 +91,7 @@ The example results and frames in `examples/droid_100` come from DROID (Khazatsk
 
 ## Website
 
-`docs/index.html` is a one-page site for GitHub Pages. Set your repository link and Stripe Payment Link in the three lines marked `EDIT THESE` at the top of the file.
+`docs/index.html` is a one-page site for GitHub Pages. Set your repository link and Google Form link in the three lines marked `EDIT THESE` at the top of the file.
 
 ## License
 
