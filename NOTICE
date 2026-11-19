@@ -1,0 +1,6 @@
+Fastagger Check
+Copyright 2026 Fastagger Inc.
+
+This product includes example results and frames derived from DROID
+(Khazatsky et al., 2024), https://droid-dataset.github.io/, through the
+lerobot/droid_100 sample on Hugging Face, licensed under CC BY 4.0.

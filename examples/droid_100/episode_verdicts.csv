@@ -1,0 +1,101 @@
+episode,task,seconds,verdict,flags
+0,Put the marker in the pot,11.07,Clean,
+1,Put the candy bar on the left side of the first shelf,15.87,Clean,
+2,Put one green sachet in the grey bowl.,9.47,Clean,
+3,Place the pack of doritos inside the sink,13.67,Clean,
+4,Move the sharpie to the table,14.2,Clean,
+5,,5.8,Software fix,MISSING_INSTRUCTION
+6,Take the pen out of the bowl and place it on the table,12.07,Clean,
+7,,39.73,Software fix,MISSING_INSTRUCTION
+8,,7.6,Software fix,MISSING_INSTRUCTION
+9,,24.0,Software fix,MISSING_INSTRUCTION
+10,Move the pan to the right.,23.8,Clean,
+11,Move the glass to the second row in the dishwasher,26.93,Clean,
+12,Pick up the lid from the table and put it on the pot,14.27,For a person,SYNC_OFFSET
+13,Pick up the black object from the striped towel and place it on the white sheet of paper on the right,13.07,Clean,
+14,,23.67,Software fix,MISSING_INSTRUCTION
+15,,15.4,Software fix,MISSING_INSTRUCTION
+16,,11.53,Software fix,MISSING_INSTRUCTION
+17,,17.6,Software fix,MISSING_INSTRUCTION
+18,,12.67,Software fix,MISSING_INSTRUCTION
+19,,11.4,Software fix,MISSING_INSTRUCTION
+20,Slide the black lid off,12.6,Clean,
+21,Put the orange rubber duck into the pot,6.13,Clean,
+22,Use the duster to wipe the whiteboard,14.2,Clean,
+23,Turn off the left light switch,16.53,Clean,
+24,Put the tissues in the rubbish bin.,71.07,For a person,MANY_GRASPS
+25,Put the middle fork in the middle section of the white object,37.2,Clean,
+26,Put the  cable in the storage box,7.93,Clean,
+27,Put the bread in the toaster,24.4,Software fix,LONG_IDLE
+28,Put the white book on top of the tissue box.,26.53,Clean,
+29,,15.13,Software fix,MISSING_INSTRUCTION
+30,,24.07,Software fix,MISSING_INSTRUCTION
+31,,13.2,Software fix,MISSING_INSTRUCTION
+32,,13.8,Software fix,MISSING_INSTRUCTION
+33,,18.73,Software fix,MISSING_INSTRUCTION
+34,Move the vaseline closer to the mirror,17.27,Clean,
+35,Put the towel on the bottle to the right,19.8,Clean,
+36,,29.0,For a person,MANY_GRASPS;MISSING_INSTRUCTION
+37,,14.0,Software fix,MISSING_INSTRUCTION
+38,,15.0,Software fix,MISSING_INSTRUCTION
+39,Take two folded white cloths out of the white box on the left,45.6,For a person,MANY_GRASPS
+40,Put the objects on the table into the cardboard box,55.53,For a person,MANY_GRASPS
+41,,5.93,Software fix,MISSING_INSTRUCTION
+42,,22.07,For a person,MANY_GRASPS;MISSING_INSTRUCTION
+43,,10.53,Software fix,MISSING_INSTRUCTION
+44,,26.0,Software fix,MISSING_INSTRUCTION
+45,,19.53,Software fix,MISSING_INSTRUCTION
+46,,21.33,Software fix,MISSING_INSTRUCTION
+47,,8.6,Software fix,MISSING_INSTRUCTION
+48,,15.27,Software fix,MISSING_INSTRUCTION
+49,,10.8,Software fix,MISSING_INSTRUCTION
+50,Put the towel on the table into the box,89.8,For a person,MANY_GRASPS;POSSIBLE_DROP
+51,,11.73,Software fix,MISSING_INSTRUCTION
+52,Turn the tap on and off and put the spoon in the dishes tray,40.33,Clean,
+53,Pick up the computer mouse and put it in the microwave,25.87,Clean,
+54,Put the marker inside the cup,8.4,Clean,
+55,,13.67,Software fix,MISSING_INSTRUCTION
+56,"Pick up the white towel and put it in the basket , pick up the marker and put it in the cup, then, pick up the yellow towel and put it in the basket, and finally pick up the masking tape and put it in the cup",40.13,For a person,MANY_GRASPS
+57,Press a button on the keyboard,20.27,Software fix,ACTION_SPIKE
+58,,14.2,For a person,MANY_GRASPS;MISSING_INSTRUCTION
+59,,9.87,Software fix,MISSING_INSTRUCTION
+60,Put the green block in the bowl,9.6,Clean,
+61,,3.33,Software fix,MISSING_INSTRUCTION
+62,,55.07,For a person,MANY_GRASPS;MISSING_INSTRUCTION;POSSIBLE_DROP
+63,,14.47,Software fix,MISSING_INSTRUCTION
+64,,18.93,Software fix,LONG_IDLE;MISSING_INSTRUCTION
+65,,13.33,Software fix,MISSING_INSTRUCTION
+66,Put the orange toy into the wooden box,9.33,Clean,
+67,,18.87,Software fix,MISSING_INSTRUCTION
+68,Take the lid off the smaller pot,14.07,For a person,POSSIBLE_DROP
+69,Move the orange objects from the pullout table to the desk,26.73,For a person,MANY_GRASPS
+70,Move the green plush to the left,6.67,Clean,
+71,"move one white object from the right heap to the left, then get the blue-white object and fold it on top of the left heap",29.33,For a person,MANY_GRASPS
+72,,22.4,For a person,MANY_GRASPS;MISSING_INSTRUCTION
+73,,25.93,Software fix,MISSING_INSTRUCTION
+74,Move the yellow mug forward,11.13,Clean,
+75,Move the cup to the right,15.07,Clean,
+76,,11.4,Software fix,MISSING_INSTRUCTION
+77,Close the drawer,6.67,Clean,
+78,,21.53,Software fix,MISSING_INSTRUCTION
+79,,0.87,Re-record,MISSING_INSTRUCTION;TRUNCATED
+80,,75.93,For a person,MANY_GRASPS;MISSING_INSTRUCTION
+81,Turn the tap nozzle from the right to the middle then open the tap,20.27,Clean,
+82,,26.13,Software fix,MISSING_INSTRUCTION
+83,,6.07,Software fix,MISSING_INSTRUCTION
+84,,108.47,For a person,LONG_IDLE;MANY_GRASPS;MISSING_INSTRUCTION
+85,,8.67,Software fix,MISSING_INSTRUCTION
+86,,5.73,Software fix,MISSING_INSTRUCTION
+87,,38.2,For a person,MANY_GRASPS;MISSING_INSTRUCTION
+88,,8.47,Software fix,MISSING_INSTRUCTION
+89,Pick up one small bottle from the container and put it on the table.,12.4,Clean,
+90,,44.07,For a person,MANY_GRASPS;MISSING_INSTRUCTION;POSSIBLE_DROP
+91,Put the yellow cube inside the blue cup,6.67,Clean,
+92,Move the pot to the top left corner of the table,8.33,Clean,
+93,Move the faucet to the center of the sink,14.0,Clean,
+94,,13.33,Software fix,MISSING_INSTRUCTION
+95,,10.47,Software fix,MISSING_INSTRUCTION
+96,Get the marker from the table and place it in the colorless cup,22.47,Clean,
+97,"Pick the two bottles on the stove and place them on the counter, then pick the cooking stick from the pot and place it on the stove",38.47,For a person,MANY_GRASPS
+98,Take the blocks out of the gift disappointed,74.67,For a person,ACTION_SPIKE;MANY_GRASPS
+99,,34.07,Software fix,MISSING_INSTRUCTION

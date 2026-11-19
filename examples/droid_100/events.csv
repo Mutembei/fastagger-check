@@ -1,0 +1,84 @@
+episode,code,start_s,end_s,detail
+5,MISSING_INSTRUCTION,0.0,5.8,no language instruction
+7,MISSING_INSTRUCTION,0.0,39.73,no language instruction
+8,MISSING_INSTRUCTION,0.0,7.6,no language instruction
+9,MISSING_INSTRUCTION,0.0,24.0,no language instruction
+12,SYNC_OFFSET,0.0,14.27,"wrist video lags arm motion by 3 frames (200 ms), r=0.82"
+14,MISSING_INSTRUCTION,0.0,23.67,no language instruction
+15,MISSING_INSTRUCTION,0.0,15.4,no language instruction
+16,MISSING_INSTRUCTION,0.0,11.53,no language instruction
+17,MISSING_INSTRUCTION,0.0,17.6,no language instruction
+18,MISSING_INSTRUCTION,0.0,12.67,no language instruction
+19,MISSING_INSTRUCTION,0.0,11.4,no language instruction
+24,MANY_GRASPS,0.0,71.07,gripper closed 6 times
+27,LONG_IDLE,0.0,3.13,3.1s with no arm motion
+29,MISSING_INSTRUCTION,0.0,15.13,no language instruction
+30,MISSING_INSTRUCTION,0.0,24.07,no language instruction
+31,MISSING_INSTRUCTION,0.0,13.2,no language instruction
+32,MISSING_INSTRUCTION,0.0,13.8,no language instruction
+33,MISSING_INSTRUCTION,0.0,18.73,no language instruction
+36,MISSING_INSTRUCTION,0.0,29.0,no language instruction
+36,MANY_GRASPS,0.0,29.0,gripper closed 4 times
+37,MISSING_INSTRUCTION,0.0,14.0,no language instruction
+38,MISSING_INSTRUCTION,0.0,15.0,no language instruction
+39,MANY_GRASPS,0.0,45.6,gripper closed 3 times
+40,MANY_GRASPS,0.0,55.53,gripper closed 3 times
+41,MISSING_INSTRUCTION,0.0,5.93,no language instruction
+42,MISSING_INSTRUCTION,0.0,22.07,no language instruction
+42,MANY_GRASPS,0.0,22.07,gripper closed 3 times
+43,MISSING_INSTRUCTION,0.0,10.53,no language instruction
+44,MISSING_INSTRUCTION,0.0,26.0,no language instruction
+45,MISSING_INSTRUCTION,0.0,19.53,no language instruction
+46,MISSING_INSTRUCTION,0.0,21.33,no language instruction
+47,MISSING_INSTRUCTION,0.0,8.6,no language instruction
+48,MISSING_INSTRUCTION,0.0,15.27,no language instruction
+49,MISSING_INSTRUCTION,0.0,10.8,no language instruction
+50,POSSIBLE_DROP,76.27,76.8,gripper 0.71 -> 0.97 while holding
+50,MANY_GRASPS,0.0,89.8,gripper closed 11 times
+51,MISSING_INSTRUCTION,0.0,11.73,no language instruction
+55,MISSING_INSTRUCTION,0.0,13.67,no language instruction
+56,MANY_GRASPS,0.0,40.13,gripper closed 3 times
+57,ACTION_SPIKE,2.13,2.2,action dim 3: 0.01 -> 0.60 -> 0.00
+58,MISSING_INSTRUCTION,0.0,14.2,no language instruction
+58,MANY_GRASPS,0.0,14.2,gripper closed 3 times
+59,MISSING_INSTRUCTION,0.0,9.87,no language instruction
+61,MISSING_INSTRUCTION,0.0,3.33,no language instruction
+62,MISSING_INSTRUCTION,0.0,55.07,no language instruction
+62,POSSIBLE_DROP,18.67,19.2,gripper 0.64 -> 0.99 while holding
+62,MANY_GRASPS,0.0,55.07,gripper closed 5 times
+63,MISSING_INSTRUCTION,0.0,14.47,no language instruction
+64,MISSING_INSTRUCTION,0.0,18.93,no language instruction
+64,LONG_IDLE,0.0,3.0,3.0s with no arm motion
+65,MISSING_INSTRUCTION,0.0,13.33,no language instruction
+67,MISSING_INSTRUCTION,0.0,18.87,no language instruction
+68,POSSIBLE_DROP,6.87,7.4,gripper 0.37 -> 0.99 while holding
+69,MANY_GRASPS,0.0,26.73,gripper closed 3 times
+71,MANY_GRASPS,0.0,29.33,gripper closed 3 times
+72,MISSING_INSTRUCTION,0.0,22.4,no language instruction
+72,MANY_GRASPS,0.0,22.4,gripper closed 3 times
+73,MISSING_INSTRUCTION,0.0,25.93,no language instruction
+76,MISSING_INSTRUCTION,0.0,11.4,no language instruction
+78,MISSING_INSTRUCTION,0.0,21.53,no language instruction
+79,MISSING_INSTRUCTION,0.0,0.87,no language instruction
+79,TRUNCATED,0.0,0.87,episode is only 13 frames (0.9s)
+80,MISSING_INSTRUCTION,0.0,75.93,no language instruction
+80,MANY_GRASPS,0.0,75.93,gripper closed 4 times
+82,MISSING_INSTRUCTION,0.0,26.13,no language instruction
+83,MISSING_INSTRUCTION,0.0,6.07,no language instruction
+84,MISSING_INSTRUCTION,0.0,108.47,no language instruction
+84,LONG_IDLE,0.0,3.2,3.2s with no arm motion
+84,MANY_GRASPS,0.0,108.47,gripper closed 12 times
+85,MISSING_INSTRUCTION,0.0,8.67,no language instruction
+86,MISSING_INSTRUCTION,0.0,5.73,no language instruction
+87,MISSING_INSTRUCTION,0.0,38.2,no language instruction
+87,MANY_GRASPS,0.0,38.2,gripper closed 4 times
+88,MISSING_INSTRUCTION,0.0,8.47,no language instruction
+90,MISSING_INSTRUCTION,0.0,44.07,no language instruction
+90,POSSIBLE_DROP,34.2,34.73,gripper 0.66 -> 0.99 while holding
+90,MANY_GRASPS,0.0,44.07,gripper closed 3 times
+94,MISSING_INSTRUCTION,0.0,13.33,no language instruction
+95,MISSING_INSTRUCTION,0.0,10.47,no language instruction
+97,MANY_GRASPS,0.0,38.47,gripper closed 3 times
+98,ACTION_SPIKE,54.13,54.2,action dim 5: -0.25 -> -0.90 -> 0.00
+98,MANY_GRASPS,0.0,74.67,gripper closed 14 times
+99,MISSING_INSTRUCTION,0.0,34.07,no language instruction

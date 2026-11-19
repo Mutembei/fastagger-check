@@ -1,0 +1,34 @@
+{
+ "episodes": 100,
+ "frames": 32212,
+ "video_minutes": 35.8,
+ "seconds_mean": 21.5,
+ "seconds_median": 15.0,
+ "seconds_p10": 7.5,
+ "seconds_p90": 40.2,
+ "seconds_min": 0.9,
+ "seconds_max": 108.5,
+ "idle_fraction_median": 0.13,
+ "episodes_with_any_flag": 67,
+ "episodes_by_code": {
+  "ACTION_SPIKE": 2,
+  "LONG_IDLE": 3,
+  "MANY_GRASPS": 18,
+  "MISSING_INSTRUCTION": 54,
+  "POSSIBLE_DROP": 4,
+  "SYNC_OFFSET": 1,
+  "TRUNCATED": 1
+ },
+ "events_by_code": {
+  "ACTION_SPIKE": 2,
+  "LONG_IDLE": 3,
+  "MANY_GRASPS": 18,
+  "MISSING_INSTRUCTION": 54,
+  "POSSIBLE_DROP": 4,
+  "SYNC_OFFSET": 1,
+  "TRUNCATED": 1
+ },
+ "decode_seconds": 50.6,
+ "analysis_seconds": 0.4,
+ "compute_seconds_per_episode": 0.51
+}
