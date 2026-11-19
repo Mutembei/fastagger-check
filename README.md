@@ -1,6 +1,6 @@
 # Fastagger Check
 
-A first-pass quality check for robot learning datasets in the LeRobot v3 format. It reads a dataset, looks at the robot's state and actions and at every camera's video, and flags episodes worth a second look before you train on them: missing instructions, cut-short recordings, long idle stretches, one-step action spikes, possible dropped objects, frozen or missing video, and cameras whose video lags the arm.
+A first-pass quality check for robot learning datasets in the LeRobot v3 format, with converters from HDF5, ROS 1 and ROS 2 bags and MCAP into LeRobot, and from LeRobot into MCAP for viewing in [Foxglove](https://foxglove.dev). It reads a dataset, looks at the robot's state and actions and at every camera's video, and flags episodes worth a second look before you train on them: missing instructions, cut-short recordings, long idle stretches, one-step action spikes, possible dropped objects, frozen or missing video, and cameras whose video lags the arm.
 
 It only reads the dataset. It never changes your episodes.
 
@@ -25,6 +25,75 @@ python fastagger_check.py strips  path/to/droid_100 out
 ```
 
 To get the sample, download `lerobot/droid_100` from Hugging Face, for example with `huggingface-cli download lerobot/droid_100 --repo-type dataset --local-dir droid_100`.
+
+## Other formats: convert to LeRobot first
+
+`fastagger_convert.py` turns recordings into a LeRobot v3 dataset that the check (and LeRobot itself) can read. One file is one episode; give it a folder to convert many.
+
+| Input | What it reads |
+|---|---|
+| HDF5, ALOHA layout | `observations/qpos`, `action`, `observations/images/<camera>` (raw or JPEG-compressed) |
+| HDF5, robomimic layout | `data/demo_N/obs/*`, `data/demo_N/actions`; every demo is an episode |
+| HDF5, any other layout | name the datasets with `--state`, `--action` and `--camera` |
+| ROS 1 bag (`.bag`) | `sensor_msgs/JointState`, `std_msgs/Float32MultiArray` and `Float64MultiArray`, `geometry_msgs/Pose` and `PoseStamped`, `sensor_msgs/Image` and `CompressedImage`, `std_msgs/String` for the instruction |
+| ROS 2 bag (folder with `metadata.yaml`, sqlite3 or MCAP storage) | the same messages |
+| MCAP (`.mcap`) | ROS 2 messages, Foxglove's Protobuf schemas, or JSON |
+
+See what a file holds, then convert:
+
+```bash
+python fastagger_convert.py inspect recordings/episode_0.bag
+
+python fastagger_convert.py to-lerobot recordings/ --out my_dataset --fps 15 \
+    --state /joint_states --action /arm/command \
+    --camera wrist=/wrist/image_raw/compressed --camera front=/front/image_raw \
+    --task-topic /instruction
+```
+
+- **Streams.** A topic can be followed by `:field` to pick a field, for example `--state /robot:position`. Repeat `--state` or `--action` to join several topics into one vector, in order.
+- **Timing.** Bags and MCAP files are resampled to `--fps`: each step takes the message nearest in time on every stream. By default messages are timed by when they were logged; `--stamp header` uses `header.stamp` instead.
+- **Report.** `conversion_report.csv` lists, for every episode and stream, the message count, the rate, the longest gap, and how many steps reused a message or had none within one frame period. Resampling can hide dropped messages, and this report is where they show up.
+- **Video.** Video is written as H.264 at quality `--crf 18` (lower is better), or as AV1 with `--codec libsvtav1`.
+- **Robot layout.** The check was tuned on DROID. For other robots, tell it which state values are the arm's pose and where the gripper is, and the converter saves this in `meta/fastagger.json`:
+
+  ```bash
+  --pose-dims 0,1,2,3,4,5 --angle-dims 3,4,5 --gripper-dim 6 --gripper-open 0 --gripper-closed 1
+  ```
+
+  Without a gripper, the drop and grasp checks are skipped. The spike check expects actions scaled to roughly -1 to 1.
+
+RLDS (Open X-Embodiment) isn't supported yet.
+
+## Open episodes in Foxglove
+
+`to-mcap` writes one MCAP file per episode, with every camera, the state and action, the instruction and, if you pass the check's `events.csv`, every flag at the moment it happened:
+
+```bash
+python fastagger_convert.py to-mcap my_dataset --out mcap --episodes 0-19 --flags out/events.csv
+```
+
+| Topic | Schema |
+|---|---|
+| `/camera/<name>` | `foxglove.CompressedImage` (JPEG) |
+| `/robot/state`, `/robot/action` | JSON: `position` (and `names` when the dataset has them); plot `/robot/state.position[6]` |
+| `/task` | `foxglove.Log` with the language instruction |
+| `/fastagger/flags` | `foxglove.Log` at warning level: the flag, its detail and its time span |
+
+Open a file in Foxglove and add Image, Plot and Log panels.
+
+## How the converters were tested
+
+`tests/make_test_files.py` repackages real DROID episodes into every input format: HDF5 (ALOHA raw and JPEG, robomimic), ROS 1 bags and ROS 2 bags (sqlite3 and MCAP). The bags carry up to 10 ms of random timing jitter. Converting them back gave:
+
+- **Numbers:** state and action identical to the source, value for value, in every format.
+- **Video:** every camera's frames aligned with the source (no frame shift), at 37–45 dB PSNR (37–43 dB after the full LeRobot → MCAP → LeRobot round trip).
+- **Flags:** the same check results from every format.
+- **LeRobot:** the official `lerobot` library (0.7.0) loads the converted datasets, video included, as it loads the original DROID sample.
+- **Round trip:** all 100 DROID episodes, LeRobot → MCAP → LeRobot, gave the same flags for every episode as the original dataset.
+
+Re-compressing video moves the camera-motion numbers slightly: the lag correlations shift by a few hundredths, and they shift more on the mostly still exterior cameras than on the wrist camera.
+
+These are real robot episodes in each format, not files recorded by other robots' own software. If a file of yours doesn't convert, please open an issue.
 
 ## What it writes
 
@@ -83,7 +152,7 @@ On a laptop, the whole run took 51 seconds: 50.6 s to decode the video and 0.4 s
 
 ## Requirements
 
-Python 3.10 or later. Tested with numpy 2.4.6, pandas 3.0.6, pyarrow 26.0.0, av 18.1.0 and OpenCV 5.0.0. `av` must be able to decode the dataset's video codec; DROID's videos are AV1.
+Python 3.10 or later. The check was tested with numpy 2.4.6, pandas 3.0.6, pyarrow 26.0.0, av 18.1.0 and OpenCV 5.0.0, and again with numpy 2.5.3, pandas 3.0.5, pyarrow 26.0.1, av 19.0.2 and OpenCV 5.0.0 on Python 3.13. The converters were tested with h5py 3.16.0, rosbags 0.11.9, mcap 1.6.0, mcap-ros2-support 0.6.0, mcap-protobuf-support 0.6.0 and foxglove-sdk 0.31.0. `av` must be able to decode the dataset's video codec; DROID's videos are AV1.
 
 ## Data credit
 
@@ -91,7 +160,7 @@ The example results and frames in `examples/droid_100` come from DROID (Khazatsk
 
 ## Website
 
-`docs/index.html` is a one-page site for GitHub Pages. Set your repository link and Google Form link in the three lines marked `EDIT THESE` at the top of the file.
+`docs/index.html` is a one-page site for GitHub Pages. Set your repository link and intake form link in the three lines marked `EDIT THESE` at the top of the file.
 
 ## License
 

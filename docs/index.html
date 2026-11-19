@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fastagger Check: find bad robot episodes before you train</title>
-<meta name="description" content="Free, open-source first-pass quality check for LeRobot datasets. Flags missing instructions, idle stretches, action spikes, possible drops, frozen video and camera lag.">
+<meta name="description" content="Free, open-source first-pass quality check for robot datasets in LeRobot, HDF5, ROS bag and MCAP formats. Flags missing instructions, idle stretches, action spikes, possible drops, frozen video and camera lag.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@700&display=swap">
@@ -12,7 +12,7 @@
   /* ===== EDIT THESE THREE LINES ===== */
   window.SITE = {
     githubUrl: "https://github.com/Mutembei/fastagger-check", // your repository
-    formLink: "https://tally.so/r/RWo1o4",              // paste your Google Form link here, e.g. "https://forms.gle/..."
+    formLink: "https://tally.so/r/RWo1o4",              // intake form link
     email: "mkariuki@fastagger.com"
   };
 </script>
@@ -76,7 +76,7 @@ footer { padding: 32px 0 48px; border-top: 1px solid var(--line); font-size: 14p
 <header class="wrap" style="padding-top:56px">
   <p class="eyebrow">Fastagger Check · open source · Apache 2.0</p>
   <h1>Find the bad robot episodes before you train on them</h1>
-  <p class="lede">A free first-pass check for LeRobot datasets. It reads the robot's state, actions and every camera, and flags episodes worth a second look: missing instructions, long idle stretches, one-step action spikes, possible dropped objects, frozen video and cameras out of sync with the arm.</p>
+  <p class="lede">A free first-pass check for robot datasets: LeRobot, or HDF5, ROS bags and MCAP through the converter. It reads the robot's state, actions and every camera, and flags episodes worth a second look: missing instructions, long idle stretches, one-step action spikes, possible dropped objects, frozen video and cameras out of sync with the arm.</p>
   <div class="btns">
     <a class="btn primary" id="cta-code" href="#">Get the code on GitHub</a>
     <a class="btn ghost" id="cta-paid-top" href="#run">Run it on my data</a>
@@ -132,6 +132,14 @@ for cam in exterior_image_1_left exterior_image_2_left wrist_image_left; do
 done
 python fastagger_check.py analyze droid_100 out
 python verdicts.py out</div>
+  <h2 style="margin-top:40px">Not in LeRobot format?</h2>
+  <p>The converter turns HDF5 (ALOHA, robomimic), ROS 1 and ROS 2 bags and MCAP files into LeRobot, and writes a report of every dropped or late message it found. It also exports LeRobot episodes as MCAP for <a href="https://foxglove.dev">Foxglove</a>, with every flag on the timeline.</p>
+  <div class="code">python fastagger_convert.py inspect recordings/episode_0.bag
+python fastagger_convert.py to-lerobot recordings/ --out my_dataset --fps 15 \
+    --state /joint_states --action /arm/command \
+    --camera wrist=/wrist/image_raw/compressed
+python fastagger_convert.py to-mcap my_dataset --out mcap --flags out/events.csv</div>
+  <p class="note">Tested by converting real DROID episodes repackaged in each format: state and actions come back value for value, video frame for frame, and the check gives the same flags.</p>
 </section>
 
 <section class="wrap" id="run">
@@ -140,7 +148,7 @@ python verdicts.py out</div>
       <p class="eyebrow" style="color:#F28C4B">Don't have time to run it?</p>
       <h2>We run it on your data, and a person reviews every flag</h2>
       <ul>
-        <li>The check on 100 of your episodes in LeRobot format (ask us about others)</li>
+        <li>The check on 100 of your episodes, from LeRobot, HDF5, ROS bags or MCAP</li>
         <li>A trained reviewer looks at every flagged episode</li>
         <li>A report with each verdict, the reason and the moment it happened</li>
         <li>Results in 48 hours, under NDA if you want one</li>

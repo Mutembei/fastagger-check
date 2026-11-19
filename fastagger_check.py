@@ -17,6 +17,16 @@ fps = info["fps"]
 cams = [k for k, v in info["features"].items() if v.get("dtype") == "video"]
 short = lambda cam: cam.split(".")[-1].replace("_image", "").replace("_left", "")
 vpath = lambda cam: next((ds / "videos" / cam).rglob("*.mp4"))
+# Which state dims are the arm pose, which are wrapping angles, where the gripper is. DROID's layout is the default;
+# fastagger_convert.py writes meta/fastagger.json for other robots.
+cfg = json.loads((ds / "meta/fastagger.json").read_text()) if (ds / "meta/fastagger.json").exists() else {}
+sdim = info["features"]["observation.state"]["shape"][0]; adim = info["features"]["action"]["shape"][0]
+droid = sdim == 7 and not cfg
+GRIP = cfg.get("gripper_dim", 6 if droid else None)
+POSE = cfg.get("pose_dims", list(range(6)) if droid else [d for d in range(sdim) if d != GRIP])
+ANG = [POSE.index(d) for d in cfg.get("angle_dims", [3, 4, 5] if droid else []) if d in POSE]
+SPIKE = cfg.get("spike_dims", list(range(6)) if droid else [d for d in POSE if d < adim])
+G_OPEN, G_CLOSED = cfg.get("gripper_open", 0.0), cfg.get("gripper_closed", 1.0)
 
 if cmd == "decode":
     cam = sys.argv[4]
@@ -54,7 +64,9 @@ if cmd == "analyze":
     # arm pose per episode with roll/pitch/yaw unwrapped (DROID Euler angles wrap at +/-pi)
     arm = {}
     for e in eps.episode_index:
-        s = state[epi == e][:, :6].copy(); s[:, 3:6] = np.unwrap(s[:, 3:6], axis=0); arm[e] = s
+        s = state[epi == e][:, POSE].copy()
+        if ANG: s[:, ANG] = np.unwrap(s[:, ANG], axis=0)
+        arm[e] = s
     scale = np.std(np.concatenate([np.diff(v, axis=0) for v in arm.values() if len(v) > 1]), axis=0) + 1e-9
     rows, events, hashes = [], [], {}
     def ev(e, code, a, b, detail): events.append(dict(episode=int(e), code=code, start_s=round(a, 2), end_s=round(b, 2), detail=detail))
@@ -80,21 +92,21 @@ if cmd == "analyze":
             ev(e, "LONG_IDLE", a_ / fps, b / fps, f"{(b-a_)/fps:.1f}s with no arm motion")
         if idle: flags.append("LONG_IDLE")
         # action spikes: a one-step blip of size >0.5 (actions are normalized to [-1, 1]) that reverses at once
-        da = np.diff(a[:, :6], axis=0); spikes = 0
+        da = np.diff(a[:, SPIKE], axis=0); spikes = 0
         for i in range(len(da) - 1):
-            for j in range(6):
-                if abs(da[i, j]) > 0.5 and abs(da[i + 1, j]) > 0.5 and np.sign(da[i, j]) != np.sign(da[i + 1, j]):
+            for jj, j in enumerate(SPIKE):
+                if abs(da[i, jj]) > 0.5 and abs(da[i + 1, jj]) > 0.5 and np.sign(da[i, jj]) != np.sign(da[i + 1, jj]):
                     spikes += 1; ev(e, "ACTION_SPIKE", (i + 1) / fps, (i + 2) / fps, f"action dim {j}: {a[i,j]:.2f} -> {a[i+1,j]:.2f} -> {a[i+2,j]:.2f}")
         if spikes: flags.append("ACTION_SPIKE")
         # gripper: holding (partly closed, steady) then snapping fully shut suggests a lost object
-        g = s[:, 6]; drop_at = None
-        for i in range(8, n - 8):
+        g = (s[:, GRIP] - G_OPEN) / (G_CLOSED - G_OPEN) if GRIP is not None else np.zeros(n); drop_at = None
+        for i in range(8, n - 8 if GRIP is not None else 0):
             hold = g[i - 8:i]
             if 0.2 < np.median(hold) < 0.9 and np.ptp(hold) < 0.05 and g[i + 8] > 0.97 and g[i + 8] - np.median(hold) > 0.08:
                 drop_at = i; break
         if drop_at is not None:
             flags.append("POSSIBLE_DROP"); ev(e, "POSSIBLE_DROP", drop_at / fps, (drop_at + 8) / fps, f"gripper {np.median(g[drop_at-8:drop_at]):.2f} -> {g[drop_at+8]:.2f} while holding")
-        closes = len(runs(g > 0.5, 3))
+        closes = len(runs(g > 0.5, 3)) if GRIP is not None else 0
         if closes >= 3:
             flags.append("MANY_GRASPS"); ev(e, "MANY_GRASPS", 0, n / fps, f"gripper closed {closes} times")
         h = hashlib.sha1(np.round(s, 4).tobytes()).hexdigest(); dup_of = hashes.get(h); hashes.setdefault(h, e)
